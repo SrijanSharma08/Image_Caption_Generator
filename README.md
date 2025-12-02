@@ -1,6 +1,3 @@
-# Image_Caption_Generator
-A deep learning based Image Caption Generator that extracts visual features using VGG16 and generates natural language captions using an LSTM model. Trained on the Flickr30k dataset.
-
 # Image Caption Generator
 
 This project generates natural language captions for images using VGG16 for feature extraction and an LSTM-based decoder network. The model is trained on the Flickr30k dataset to produce human-like descriptions for images.
