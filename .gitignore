@@ -1,0 +1,55 @@
+# -----------------------------
+# Python Cache / Bytecode
+# -----------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# -----------------------------
+# Virtual Environment
+# -----------------------------
+env/
+venv/
+.myenv/
+
+# -----------------------------
+# Jupyter Notebook checkpoints
+# -----------------------------
+.ipynb_checkpoints/
+
+# -----------------------------
+# Model Files (Large)
+# -----------------------------
+*.h5
+*.pkl
+
+# If you want to keep tokenizer.pkl or max_length.pkl, remove from ignore list above
+
+# -----------------------------
+# Dataset / Large Images
+# -----------------------------
+flickr30k_images/
+uploads/
+static/uploads/
+
+# Ignore all images
+*.jpg
+*.jpeg
+*.png
+
+# But keep important images explicitly
+# (Add ! to allow specific files)
+!Wallpaper.jpg
+
+# -----------------------------
+# System / Editor Files
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# VSCode
+# -----------------------------
+.vscode/
+

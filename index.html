@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Caption Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f4f4f9;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #upload-box {
+      margin-top: 20px;
+      padding: 30px;
+      border: 2px dashed #aaa;
+      border-radius: 10px;
+      background: #fff;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .custom-file-upload {
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    #image-preview {
+      max-width: 100%;
+      margin: 20px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    #caption {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #444;
+    }
+
+    button {
+      background: #28a745;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h1>🖼️ Image Caption Generator</h1>
+
+  <div id="upload-box">
+    <label class="custom-file-upload">
+      <input type="file" id="image-input" accept="image/*" />
+      Choose Image
+    </label>
+
+    <div id="preview-box">
+      <img id="image-preview" src="#" alt="Preview will appear here" style="display:none;" />
+    </div>
+
+    <button onclick="uploadImage()">Generate Caption</button>
+
+    <div id="caption"></div>
+  </div>
+
+  <script>
+    let selectedFile;
+
+    document.getElementById('image-input').addEventListener('change', function (e) {
+      selectedFile = e.target.files[0];
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const img = document.getElementById('image-preview');
+          img.src = event.target.result;
+          img.style.display = 'block';
+        };
+        reader.readAsDataURL(selectedFile);
+      }
+    });
+
+    async function uploadImage() {
+      if (!selectedFile) {
+        alert('Please select an image first.');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      const captionDiv = document.getElementById('caption');
+      captionDiv.innerHTML = "⏳ Generating caption...";
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/generate_caption', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          captionDiv.innerHTML = `<strong>Caption:</strong> ${data.caption}`;
+          // ✅ Keep the preview image already shown (do NOT change it)
+        } else {
+          captionDiv.innerHTML = `❌ Server error: ${data.caption}`;
+        }
+      } catch (error) {
+        captionDiv.innerHTML = '❌ Failed to connect to server.';
+        console.error('Error:', error);
+      }
+    }
+  </script>
+</body>
+</html>
